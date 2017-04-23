@@ -39,8 +39,24 @@ class ViewController: UIViewController {
     
     @IBAction func requestHealthKitData(_ sender: UIButton) {
         let startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())
-        self.activityKit.getActivityData(since: startDate, completion: { statisticsArray, error in
-            guard statisticsArray != nil else {
+        
+        // Run a statistics collection query
+//        self.activityKit.getActivityData(since: startDate, completion: { statisticsArray, error in
+//            guard statisticsArray != nil else {
+//                NSLog("View controller did not receive any HealthKit statistics")
+//                
+//                return
+//            }
+//            
+//            let dataViewController = self.childViewControllers.first as! TableViewController
+//            
+//            dataViewController.displayType = TableViewController.DataDisplayType.DisplayStatisticsData
+//            dataViewController.statisticsDataArray = statisticsArray
+//        })
+        
+        // Run a sample query
+        self.activityKit.getActivitySamples(since: startDate, completion: { samplesArray, error in
+            guard samplesArray != nil else {
                 NSLog("View controller did not receive any HealthKit statistics")
                 
                 return
@@ -48,7 +64,8 @@ class ViewController: UIViewController {
             
             let dataViewController = self.childViewControllers.first as! TableViewController
             
-            dataViewController.statisticsDataArray = statisticsArray
+            dataViewController.displayType = TableViewController.DataDisplayType.DisplaySampleData
+            dataViewController.samplesDataArray = samplesArray
         })
     }
 }

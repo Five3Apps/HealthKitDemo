@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8B12954D1EA719A300F70EEF /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B12954C1EA719A300F70EEF /* HealthKit.framework */; };
+		8B31F8221EAC6B4D00FF6F9D /* ActivitySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B31F8211EAC6B4D00FF6F9D /* ActivitySample.swift */; };
 		8BB0DBC81EA823BE0057081F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB0DBC71EA823BE0057081F /* TableViewController.swift */; };
 		8BB0DBCA1EA867410057081F /* ActivityInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB0DBC91EA867410057081F /* ActivityInterval.swift */; };
 		8BD0E44E1EA5895F0061F3B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD0E44D1EA5895F0061F3B9 /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		8B12954A1EA719A300F70EEF /* Activity Check.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Activity Check.entitlements"; sourceTree = "<group>"; };
 		8B12954C1EA719A300F70EEF /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		8B31F8211EAC6B4D00FF6F9D /* ActivitySample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitySample.swift; sourceTree = "<group>"; };
 		8BB0DBC71EA823BE0057081F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		8BB0DBC91EA867410057081F /* ActivityInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityInterval.swift; sourceTree = "<group>"; };
 		8BD0E44A1EA5895F0061F3B9 /* Activity Check.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Activity Check.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +81,7 @@
 				8BB0DBC71EA823BE0057081F /* TableViewController.swift */,
 				8BD0E45F1EA58AFE0061F3B9 /* ActivityKit.swift */,
 				8BB0DBC91EA867410057081F /* ActivityInterval.swift */,
+				8B31F8211EAC6B4D00FF6F9D /* ActivitySample.swift */,
 				8BD0E4511EA5895F0061F3B9 /* Main.storyboard */,
 				8BD0E4541EA5895F0061F3B9 /* Assets.xcassets */,
 				8BD0E4561EA5895F0061F3B9 /* LaunchScreen.storyboard */,
@@ -165,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B31F8221EAC6B4D00FF6F9D /* ActivitySample.swift in Sources */,
 				8BD0E4501EA5895F0061F3B9 /* ViewController.swift in Sources */,
 				8BD0E4601EA58AFE0061F3B9 /* ActivityKit.swift in Sources */,
 				8BD0E44E1EA5895F0061F3B9 /* AppDelegate.swift in Sources */,

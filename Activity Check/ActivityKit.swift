@@ -126,9 +126,67 @@ class ActivityKit : NSObject {
     }
     
     
+    //************************************************
+    //STEP 2b: Request statistics data
+    //************************************************
+    
+    /// Get all activity data as specified by 'healthKitActivityTypesToRead()'. Public entry point for calling a query of the HK database.
+    ///
+    /// - Parameters:
+    ///   - start: Start date determining the beginning point for which statistics will be returned
+    ///   - completion: A completion to run when the query finishes. Dictionary, if present returns arrays of HKStatistics objects that are keyed using HKIdentifier for each quantity type.
+    func getActivitySamples(since start: Date?, completion:(([ActivitySample]?, NSError?) -> Void)?) {
+        
+        //Make sure we're ready to get all specified activity types
+        guard let healthTypes = self.healthKitActivityTypesToRead() else {
+            NSLog("Not set to read any health data.")
+            
+            let error = NSError(domain: self.errorDomain, code: ActivityKitError.NoStatisticsRequested.rawValue, userInfo: nil)
+            completion?(nil, error)
+            return
+        }
+        
+        // Set date bounds
+        let endDate = Date()
+        let startDate = start ?? Calendar.current.date(byAdding: .day, value: -30, to: endDate)!
+        
+        // Prep for response
+        var resultsDictionary = [String: Array<HKQuantitySample>]()
+        
+        //Dispatch group to wait for multiple async responses
+        let queryGroup = DispatchGroup()
+        
+        for typeToRead in healthTypes {
+            queryGroup.enter()
+            self.queryForActivitySample(since: startDate, to: endDate, for: (typeToRead as! HKQuantityType), completion: { sampleArray, error in
+                
+                if sampleArray != nil {
+                    resultsDictionary[typeToRead.identifier] = sampleArray
+                }
+                
+                queryGroup.leave()
+            })
+        }
+        
+        queryGroup.notify(queue: DispatchQueue.main) {
+            if resultsDictionary.count > 0 {
+                let resultsArray = self.convertActivitySample(fromSamples: resultsDictionary)
+                completion?(resultsArray, nil)
+            } else {
+                let error = NSError(domain: self.errorDomain, code: ActivityKitError.NoStatisticsReturned.rawValue, userInfo: nil)
+                completion?(nil, error)
+            }
+        }
+    }
+    
+    
     //MARK: Private functions
     
-    /// Query for a specific data type. Only used privately inside this class.
+    //************************************************
+    // Used for statistics collection query
+    //************************************************
+    
+    /// Run a statistics collection query for a specific data type. Only used privately inside this class.
     ///
     /// - Parameters:
     ///   - startDate: start of range for which to query
@@ -178,6 +236,60 @@ class ActivityKit : NSObject {
                     let activity = ActivityInterval()
                     activity.timestamp = statsObject.startDate
                     activity.addData(fromStatistic: statsObject)
+                    results.append(activity)
+                }
+            }
+        }
+        
+        return results.sorted(by: { $0.timestamp! < $1.timestamp! })
+    }
+    
+    //************************************************
+    // Used for sample query
+    //************************************************
+    
+    /// Run a sample query for a specific data type. Only used privately inside this class.
+    ///
+    /// - Parameters:
+    ///   - startDate: start of range for which to query
+    ///   - endDate: end of range for which to query
+    ///   - quantityType: type of data to query
+    ///   - completion: block to run with results or error. Will not return an empty array; array is either populated or nil
+    private func queryForActivitySample(since startDate: Date, to endDate: Date, for sampleType: HKQuantityType, completion: ((Array<HKQuantitySample>?, NSError?) -> Void)?) {
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: nil) { query, results, error in
+            guard let samples = results as? [HKQuantitySample] else {
+                NSLog("Error fetching results: \(String(describing: error))")
+                completion?(nil, error as NSError?)
+                return
+            }
+            
+            if samples.isEmpty == false {
+                completion?(samples, nil)
+            } else {
+                completion?(nil, nil)
+            }
+        }
+        
+        healthStore.execute(query)
+    }
+    
+    /// Takes dictionary of HKSamples to be converted to an array of ActivityInterval.
+    ///
+    /// - Parameter statistics: Dictionary with keys that are expected to be HKQuantityType.identifiers, referencing arrays of HKStatistics of that HKQuantityType
+    /// - Returns: Array of ActivityInterval objects that contain the data from all the HKStatistics that were passed in.
+    public func convertActivitySample(fromSamples samples: [String: Array<HKQuantitySample>]) -> [ActivitySample]? {
+        var results = Array<ActivitySample>()
+        
+        for (_, samplesArray) in samples {
+            for sampleObject in samplesArray {
+                if let activity = results.first(where: { $0.timestamp == sampleObject.startDate }) {
+                    activity.addData(fromSample: sampleObject)
+                } else {
+                    let activity = ActivitySample()
+                    activity.timestamp = sampleObject.startDate
+                    activity.addData(fromSample: sampleObject)
                     results.append(activity)
                 }
             }
