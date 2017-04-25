@@ -12,7 +12,7 @@
         <!--Write View Controller-->
         <scene sceneID="6wc-OP-PXp">
             <objects>
-                <viewController id="O8E-9c-iUF" userLabel="Write View Controller" sceneMemberID="viewController">
+                <viewController id="O8E-9c-iUF" userLabel="Write View Controller" customClass="WriteViewController" customModule="Activity_Check" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="j6f-1U-Wa4"/>
                         <viewControllerLayoutGuide type="bottom" id="UqA-nb-id1"/>
@@ -20,9 +20,78 @@
                     <view key="view" contentMode="scaleToFill" id="iOK-aK-UaI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3El-jc-KCW">
+                                <rect key="frame" x="144" y="105" width="86" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ikj-q4-M5Y">
+                                <rect key="frame" x="87.5" y="134" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="9KB-ww-GbB"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="O8E-9c-iUF" id="F51-Gu-3eg"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calories Burned" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fC5-3s-OL0">
+                                <rect key="frame" x="126" y="174" width="123" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="egJ-UJ-ssl">
+                                <rect key="frame" x="137.5" y="203" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="7JL-sG-NYC"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="O8E-9c-iUF" id="TeZ-Sy-cnW"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NeQ-6c-sHq">
+                                <rect key="frame" x="117" y="243" width="140" height="30"/>
+                                <state key="normal" title="Save Active Calories"/>
+                                <connections>
+                                    <action selector="saveActiveCalorieSample:" destination="O8E-9c-iUF" eventType="touchUpInside" id="NBf-9t-ri4"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Active Calorie Sample" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efB-vR-Fle">
+                                <rect key="frame" x="82" y="40" width="211" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fC5-3s-OL0" firstAttribute="top" secondItem="ikj-q4-M5Y" secondAttribute="bottom" constant="10" id="8hH-BX-u1c"/>
+                            <constraint firstItem="NeQ-6c-sHq" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="Arr-zd-7Hu"/>
+                            <constraint firstItem="fC5-3s-OL0" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="N5q-ag-zFI"/>
+                            <constraint firstItem="egJ-UJ-ssl" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="U3v-v9-128"/>
+                            <constraint firstItem="3El-jc-KCW" firstAttribute="top" secondItem="efB-vR-Fle" secondAttribute="bottom" constant="44" id="WMC-jJ-PsO"/>
+                            <constraint firstItem="NeQ-6c-sHq" firstAttribute="top" secondItem="egJ-UJ-ssl" secondAttribute="bottom" constant="10" id="ZLy-03-D0R"/>
+                            <constraint firstItem="ikj-q4-M5Y" firstAttribute="top" secondItem="3El-jc-KCW" secondAttribute="bottom" constant="8" id="gkh-Db-J57"/>
+                            <constraint firstItem="efB-vR-Fle" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="j8E-dm-kUp"/>
+                            <constraint firstItem="efB-vR-Fle" firstAttribute="top" secondItem="j6f-1U-Wa4" secondAttribute="bottom" constant="20" id="jhS-0U-cpb"/>
+                            <constraint firstItem="ikj-q4-M5Y" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="rV3-XP-E5v"/>
+                            <constraint firstItem="egJ-UJ-ssl" firstAttribute="top" secondItem="fC5-3s-OL0" secondAttribute="bottom" constant="8" id="spS-X2-qx2"/>
+                            <constraint firstItem="3El-jc-KCW" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="xNX-14-uvN"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" tag="1" title="Write" id="axt-xA-EON"/>
+                    <connections>
+                        <outlet property="caloriesTextField" destination="egJ-UJ-ssl" id="ReR-Qt-I5R"/>
+                        <outlet property="timestampTextField" destination="ikj-q4-M5Y" id="ntb-Zm-dlO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I1c-qI-BNz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

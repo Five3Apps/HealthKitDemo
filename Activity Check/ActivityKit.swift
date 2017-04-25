@@ -48,32 +48,29 @@ class ActivityKit : NSObject {
         }
         
         // Request authorization to read/write the specified data types
-        self.healthStore.requestAuthorization(toShare: nil, read: self.healthKitActivityTypesToRead()) { (success: Bool, error: Error?) -> Void in
+        self.healthStore.requestAuthorization(toShare: self.healthKitActivityTypesToWrite(), read: self.healthKitActivityTypesToRead()) { (success: Bool, error: Error?) -> Void in
             DispatchQueue.main.async {
                 completion?(success, error as NSError?)
             }
         }
     }
     
-    /// Request HKQuantityTypes to be used for reading HealthKit data.
-    ///
-    /// - Returns: Set of HKQuantityType
-    func healthKitActivityTypesToRead() -> Set<HKObjectType>? {
-        var healthDataToRead = Set<HKObjectType>()
-        
-        healthDataToRead.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!)
-        healthDataToRead.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!)
-        
-        if #available(iOS 9.3, *) { //Exercise time was not added until iOS 9.3, so guard against this
-            healthDataToRead.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.appleExerciseTime)!)
-        }
-        
-        return healthDataToRead
+    
+    //************************************************
+    //STEP 3b: Request statistics data
+    //************************************************
+    
+    func saveActivitySample(sample: HKQuantitySample, completion:((Bool, NSError?) -> Void)?) {
+        self.healthStore.save(sample, withCompletion: { success, error in
+            DispatchQueue.main.async {
+                completion?(success, error as NSError?)
+            }
+        })
     }
     
     
     //************************************************
-    //STEP 2: Request statistics data
+    //STEP 3: Request statistics data
     //************************************************
     
     /// Get all activity data as specified by 'healthKitActivityTypesToRead()'. Public entry point for calling a query of the HK database.
@@ -127,7 +124,7 @@ class ActivityKit : NSObject {
     
     
     //************************************************
-    //STEP 2b: Request statistics data
+    //STEP 3b: Request statistics data
     //************************************************
     
     /// Get all activity data as specified by 'healthKitActivityTypesToRead()'. Public entry point for calling a query of the HK database.
@@ -181,6 +178,33 @@ class ActivityKit : NSObject {
     
     
     //MARK: Private functions
+    
+    /// Request HKQuantityTypes to be used for reading HealthKit data.
+    ///
+    /// - Returns: Set of HKQuantityType
+    private func healthKitActivityTypesToRead() -> Set<HKObjectType>? {
+        var healthDataToRead = Set<HKObjectType>()
+        
+        healthDataToRead.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!)
+        healthDataToRead.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!)
+        
+        if #available(iOS 9.3, *) { //Exercise time was not added until iOS 9.3, so guard against this
+            healthDataToRead.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.appleExerciseTime)!)
+        }
+        
+        return healthDataToRead
+    }
+    
+    /// Request HKQuantityTypes to be used for writing HealthKit data.
+    ///
+    /// - Returns: Set of HKQuantityType
+    private func healthKitActivityTypesToWrite() -> Set<HKSampleType>? {
+        var healthDataToWrite = Set<HKSampleType>()
+        
+        healthDataToWrite.insert(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!)
+        
+        return healthDataToWrite
+    }
     
     //************************************************
     // Used for statistics collection query

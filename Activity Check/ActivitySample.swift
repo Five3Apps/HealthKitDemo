@@ -39,7 +39,7 @@ class ActivitySample : NSObject {
             break
         }
         
-        self.name = fromSample.device?.name
+        self.name = fromSample.sourceRevision.source.name
     }
     
 }
