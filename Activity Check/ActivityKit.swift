@@ -57,7 +57,7 @@ class ActivityKit : NSObject {
     
     
     //************************************************
-    //STEP 3b: Request statistics data
+    //STEP 2: Save health data
     //************************************************
     
     func saveActivitySample(sample: HKQuantitySample, completion:((Bool, NSError?) -> Void)?) {
@@ -124,7 +124,7 @@ class ActivityKit : NSObject {
     
     
     //************************************************
-    //STEP 3b: Request statistics data
+    //STEP 3b: Request sample data
     //************************************************
     
     /// Get all activity data as specified by 'healthKitActivityTypesToRead()'. Public entry point for calling a query of the HK database.

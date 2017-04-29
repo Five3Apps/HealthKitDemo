@@ -72,6 +72,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="fC5-3s-OL0" firstAttribute="top" secondItem="ikj-q4-M5Y" secondAttribute="bottom" constant="10" id="8hH-BX-u1c"/>
                             <constraint firstItem="NeQ-6c-sHq" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="Arr-zd-7Hu"/>
@@ -86,6 +87,9 @@
                             <constraint firstItem="egJ-UJ-ssl" firstAttribute="top" secondItem="fC5-3s-OL0" secondAttribute="bottom" constant="8" id="spS-X2-qx2"/>
                             <constraint firstItem="3El-jc-KCW" firstAttribute="centerX" secondItem="iOK-aK-UaI" secondAttribute="centerX" id="xNX-14-uvN"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="9Fe-ke-3Tv" appends="YES" id="Yj2-sX-Gtc"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" tag="1" title="Write" id="axt-xA-EON"/>
                     <connections>
@@ -94,6 +98,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I1c-qI-BNz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="9Fe-ke-3Tv">
+                    <connections>
+                        <action selector="dismissKeyboard:" destination="O8E-9c-iUF" id="lAq-0h-vm3"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="753" y="513"/>
         </scene>
@@ -135,24 +144,33 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rHd-Cf-8Ku">
-                                <rect key="frame" x="0.0" y="118" width="375" height="500"/>
+                                <rect key="frame" x="0.0" y="156" width="375" height="462"/>
                                 <connections>
                                     <segue destination="A7T-g3-w4w" kind="embed" id="lfi-mj-lG3"/>
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NUC-JC-1L4">
-                                <rect key="frame" x="116" y="68" width="142" height="30"/>
-                                <state key="normal" title="Fetch HealthKit Data"/>
+                                <rect key="frame" x="101" y="68" width="173" height="30"/>
+                                <state key="normal" title="Fetch HealthKit Statistics"/>
                                 <connections>
                                     <action selector="requestHealthKitData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2Ln-aK-GKE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e8t-uH-X21">
+                                <rect key="frame" x="103" y="106" width="169" height="30"/>
+                                <state key="normal" title="Fetch HealthKit Samples"/>
+                                <connections>
+                                    <action selector="requestHealthKitSamples:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ePu-0G-8Pd"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="rHd-Cf-8Ku" firstAttribute="top" secondItem="NUC-JC-1L4" secondAttribute="bottom" constant="20" id="0Qp-5x-2fV"/>
                             <constraint firstItem="NUC-JC-1L4" firstAttribute="top" secondItem="6iC-4V-SML" secondAttribute="bottom" constant="8" id="66M-Bl-7iD"/>
+                            <constraint firstItem="e8t-uH-X21" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Mc2-j6-4rO"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="rHd-Cf-8Ku" secondAttribute="bottom" id="NsJ-NB-s9z"/>
+                            <constraint firstItem="e8t-uH-X21" firstAttribute="top" secondItem="NUC-JC-1L4" secondAttribute="bottom" constant="8" id="Rbc-2q-CCa"/>
+                            <constraint firstItem="rHd-Cf-8Ku" firstAttribute="top" secondItem="e8t-uH-X21" secondAttribute="bottom" constant="20" id="S64-OE-ITN"/>
                             <constraint firstAttribute="trailing" secondItem="rHd-Cf-8Ku" secondAttribute="trailing" id="cNH-Tb-TmB"/>
                             <constraint firstItem="rHd-Cf-8Ku" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cdN-hS-jKH"/>
                             <constraint firstItem="6iC-4V-SML" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gfI-Ub-g7V"/>
@@ -167,14 +185,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="753" y="-167"/>
+            <point key="canvasLocation" x="752.79999999999995" y="-167.76611694152925"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="uc0-Ee-v5S">
             <objects>
                 <tableViewController id="A7T-g3-w4w" customClass="TableViewController" customModule="Activity_Check" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Jl9-GT-v9E">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="462"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>

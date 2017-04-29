@@ -44,7 +44,7 @@ class WriteViewController: UIViewController {
             return
         }
         
-        guard let startDate = ISO8601DateFormatter.init().date(from: self.timestampTextField.text!) else {
+        guard let startDate = ISO8601DateFormatter().date(from: self.timestampTextField.text!) else {
             NSLog("Unable to create a sample date")
             
             return
@@ -65,7 +65,11 @@ class WriteViewController: UIViewController {
                 
                 return
             }
-        })
+        })  
+    }
+    
+    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
     }
     
     //MARK: <UITextFieldDelegate>

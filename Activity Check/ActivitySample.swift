@@ -32,8 +32,8 @@ class ActivitySample : NSObject {
         case HKQuantityTypeIdentifier.activeEnergyBurned.rawValue:
             self.activeCalories = fromSample.quantity.doubleValue(for: HKUnit.kilocalorie())
             
-        case HKQuantityTypeIdentifier.appleExerciseTime.rawValue:
-            self.exerciseTime = fromSample.quantity.doubleValue(for: HKUnit.count())
+//        case HKQuantityTypeIdentifier.appleExerciseTime.rawValue:
+//            self.exerciseTime = fromSample.quantity.doubleValue(for: HKUnit.count())
             
         default:
             break

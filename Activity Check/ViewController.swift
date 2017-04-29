@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.activityKit.dataInterval = 60
+        self.activityKit.dataInterval = 15
     }
 
     
@@ -36,18 +36,22 @@ class ViewController: UIViewController {
         let startDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())
         
         // Run a statistics collection query
-//        self.activityKit.getActivityData(since: startDate, completion: { statisticsArray, error in
-//            guard statisticsArray != nil else {
-//                NSLog("View controller did not receive any HealthKit statistics")
-//                
-//                return
-//            }
-//            
-//            let dataViewController = self.childViewControllers.first as! TableViewController
-//            
-//            dataViewController.displayType = TableViewController.DataDisplayType.DisplayStatisticsData
-//            dataViewController.statisticsDataArray = statisticsArray
-//        })
+        self.activityKit.getActivityData(since: startDate, completion: { statisticsArray, error in
+            guard statisticsArray != nil else {
+                NSLog("View controller did not receive any HealthKit statistics")
+                
+                return
+            }
+            
+            let dataViewController = self.childViewControllers.first as! TableViewController
+            
+            dataViewController.displayType = TableViewController.DataDisplayType.DisplayStatisticsData
+            dataViewController.statisticsDataArray = statisticsArray
+        })
+    }
+    
+    @IBAction func requestHealthKitSamples(_ sender: UIButton) {
+        let startDate = Calendar.current.date(byAdding: .hour, value: -6, to: Date())
         
         // Run a sample query
         self.activityKit.getActivitySamples(since: startDate, completion: { samplesArray, error in
